@@ -127,6 +127,7 @@ void Application::mp1Run() {
 		/*
 		 * Receive messages from the network and queue them in the membership protocol queue
 		 */
+    // if time in range (?) and the node has not failed receive the messages
 		if( par->getcurrtime() > (int)(par->STEP_RATE*i) && !(mp1[i]->getMemberNode()->bFailed) ) {
 			// Receive messages from the network and queue them
 			mp1[i]->recvLoop();

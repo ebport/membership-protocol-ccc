@@ -163,6 +163,7 @@ int MP1Node::finishUpThisNode(){
    /*
     * Your code goes here
     */
+    // TODO run destructor?
 }
 
 /**
@@ -218,6 +219,61 @@ bool MP1Node::recvCallBack(void *env, char *data, int size ) {
 	/*
 	 * Your code goes here
 	 */
+   // If conditional logic that acts on different message type calls 
+   // Read data
+   MessageHdr *msg = (MessageHdr *) data
+   MessageHdr *resp
+   // JOINREQ - updates memberlist, sends joinrep (source, destination, memberlist)
+   if (msg->msgType == JOINREQ) {
+     // Read additional data
+     Address *addr = (char *)(msg + 1)
+     long *heartbeat = (char *)(msg + 1) + 1 + sizeof(Address)
+     // Update memberlist
+     
+     // Create new message (JOINREP)
+     size_t msgsize = sizeof(MessageHdr) + sizeof(memberNode->memberList)
+     resp = (MessageHdr *) malloc(msgsize * sizeof(char))
+     memcpy((char *)(resp+1), &memberNode->memberList, sizeof(memberNode->memberList))
+     resp->msgType = JOINREP
+     // Send message
+     emulNet->ENsend(&env->addr, addr, (char *)resp, msgsize
+   }
+   else if (msg->msgType == JOINREP) {
+     
+   }
+   /*
+   // JOINREQ - updates memberlist, sends joinrep (source, destination, memberlist)
+   // If statement on message header
+   
+   // Update memberlist
+   // Create new message
+   MessageHdr *msg;
+   // Message size calculations
+   size_t msgsize = sizeof(MessageHdr) + sizeof(joinaddr->addr) + sizeof(long) + 1;
+   msg = (MessageHdr *) malloc(msgsize * sizeof(char));
+   // Create message content
+   memcpy((char *)(msg+1), &memberNode->addr.addr, sizeof(memberNode->addr.addr));
+   memcpy((char *)(msg+1) + 1 + sizeof(memberNode->addr.addr), &memberNode->heartbeat, sizeof(long));
+   // Set message type
+   msg->msgType = JOINREP;
+   // send message
+   emulNet->ENsend(&memberNode->addr, joinaddr, (char *)msg, msgsize);
+   emulNet->ENsend(*env->addr, destination (struct address *addr), *env->memberList (string data)) //returns int conditional logic off of this?
+   */
+   
+   // JOINREP - adds memberlist, sets inGroup to true
+   
+   // PING - update memberlist, send pingrep
+   
+   // PINGREP - update memberlist
+   
+   // PINGREQ - updates memberlist, sends ping request ping
+   
+   // PINGREQPING - updates memberlist, sends ping request ping reply
+   
+   // PINGREQPINGREP - updates memberlist, sends pingreqrep
+   
+   // PINGREQREP - updates memberlist
 }
 
 /**
@@ -232,7 +288,13 @@ void MP1Node::nodeLoopOps() {
 	/*
 	 * Your code goes here
 	 */
-
+  // Increment heartbeat
+  memberNode->heartbeat++
+  
+  // Check membership table against timeout. Current time - time entry > timeout then delete from list
+  
+  // Ping logic - initiate random ping (or ordered, then permute at end of list), or random pingreqs
+  
     return;
 }
 
