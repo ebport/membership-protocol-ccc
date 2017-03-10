@@ -221,27 +221,28 @@ bool MP1Node::recvCallBack(void *env, char *data, int size ) {
 	 */
    // If conditional logic that acts on different message type calls 
    // Read data
-   MessageHdr *msg = (MessageHdr *) data
-   MessageHdr *resp
+   MessageHdr *msg = (MessageHdr *) data;
+   MessageHdr *resp;
    // JOINREQ - updates memberlist, sends joinrep (source, destination, memberlist)
    if (msg->msgType == JOINREQ) {
-     cout << "JOINREQ initiated"
-     /* Read additional data
-     Address *addr = (char *)(&msg + 1)
-     long *heartbeat = (char *)(msg + 1) + 1 + sizeof(Address)
+     cout << "JOINREQ initiated";
+     // extract fields from message - address is id
+     char addr[6]; int id; short port; long heartbeat;
+     memcpy(&addr[0], data + sizeof(MessageHdr), sizeof(memberNode->addr.addr); // seems like address size could be different from address size in message?
+     heartbeat = *(long *)(data + sizeof(MessageHdr) + 1 + sizeof(memberNode->addr.addr));
+     id = memcpy(&id, &addr[0], sizeof(int));
      // Update memberlist
-     this->memberNode.myPos = this->memberNode.memberList.emplace(this->memberNode.myPos, addr, addr->port)
+     this->memberNode.myPos = this->memberNode.memberList.emplace(this->memberNode.myPos, id, *id->port);
      // Create new message (JOINREP)
-     size_t msgsize = sizeof(MessageHdr) + sizeof(memberNode->memberList)
+     /*size_t msgsize = sizeof(MessageHdr) + sizeof(memberNode->memberList)
      resp = (MessageHdr *) malloc(msgsize * sizeof(char))
      memcpy((char *)(resp+1), &memberNode->memberList, sizeof(memberNode->memberList))
      resp->msgType = JOINREP
      // Send message
-     emulNet->ENsend(&env->addr, addr, (char *)resp, msgsize
+     emulNet->ENsend(&env->addr, addr, (char *)resp, msgsize*/
    }
    else if (msg->msgType == JOINREP) {
-     
-   }*/
+   }
    
    /*
    // JOINREQ - updates memberlist, sends joinrep (source, destination, memberlist)
@@ -291,7 +292,7 @@ void MP1Node::nodeLoopOps() {
 	 * Your code goes here
 	 */
   // Increment heartbeat
-  memberNode->heartbeat++
+  memberNode->heartbeat++;
   
   // Check membership table against timeout. Current time - time entry > timeout then delete from list
   
