@@ -32,12 +32,12 @@ enum MsgTypes{
     JOINREQ,
     JOINREP,
     // NEW message types here - TODO
-    PING
-    PINGREP
-    PINGREQ
-    PINGREQPING
-    PINGREQPINGREP
-    PINGREQREP
+    PING,
+    PINGREP,
+    PINGREQ,
+    PINGREQPING,
+    PINGREQPINGREP,
+    PINGREQREP.
     DUMMYLASTMSGTYPE
 };
 

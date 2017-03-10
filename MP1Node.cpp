@@ -107,7 +107,7 @@ int MP1Node::initThisNode(Address *joinaddr) {
 	memberNode->heartbeat = 0;
 	memberNode->pingCounter = TFAIL;
 	memberNode->timeOutCounter = -1;
-    initMemberListTable(memberNode);
+  initMemberListTable(memberNode);
 
     return 0;
 }
@@ -225,11 +225,12 @@ bool MP1Node::recvCallBack(void *env, char *data, int size ) {
    MessageHdr *resp
    // JOINREQ - updates memberlist, sends joinrep (source, destination, memberlist)
    if (msg->msgType == JOINREQ) {
-     // Read additional data
-     Address *addr = (char *)(msg + 1)
+     cout << "JOINREQ initiated"
+     /* Read additional data
+     Address *addr = (char *)(&msg + 1)
      long *heartbeat = (char *)(msg + 1) + 1 + sizeof(Address)
      // Update memberlist
-     
+     this->memberNode.myPos = this->memberNode.memberList.emplace(this->memberNode.myPos, addr, addr->port)
      // Create new message (JOINREP)
      size_t msgsize = sizeof(MessageHdr) + sizeof(memberNode->memberList)
      resp = (MessageHdr *) malloc(msgsize * sizeof(char))
@@ -240,7 +241,8 @@ bool MP1Node::recvCallBack(void *env, char *data, int size ) {
    }
    else if (msg->msgType == JOINREP) {
      
-   }
+   }*/
+   
    /*
    // JOINREQ - updates memberlist, sends joinrep (source, destination, memberlist)
    // If statement on message header
