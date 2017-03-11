@@ -16,7 +16,7 @@
  * You can add new members to the class if you think it
  * is necessary for your logic to work
  */
-MP1Node::MP1Node(Member *member, Params *params, EmulNet *emul, Log *log, Address *address) {
+MP1Node::MP1Node(Member *member, Params *params, EmulNet *emul, Log *, Address *address) {
 	for( int i = 0; i < 6; i++ ) {
 		NULLADDR[i] = 0;
 	}
@@ -234,6 +234,7 @@ bool MP1Node::recvCallBack(void *env, char *data, int size ) {
      memcpy(&port, &addr[4], sizeof(short));
      // Update memberlist
      ((Member *)env)->memberList.emplace_back(id, port);
+     ((Member *)env)->log.logNodeAdd(((Member *)env)->addr.addr, addr)
      // Old this->memberNode.myPos = this->memberNode.memberList.emplace(this->memberNode.myPos, id, *id->port);
      // Create new message (JOINREP)
      /*size_t msgsize = sizeof(MessageHdr) + sizeof(memberNode->memberList)
