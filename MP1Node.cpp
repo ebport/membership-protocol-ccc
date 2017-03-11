@@ -233,7 +233,8 @@ bool MP1Node::recvCallBack(void *env, char *data, int size ) {
      memcpy(&id, &addr[0], sizeof(int));
      memcpy(&port, &addr[4], sizeof(short))
      // Update memberlist
-     this->memberNode.myPos = this->memberNode.memberList.emplace(this->memberNode.myPos, id, *id->port);
+     env->memberList.emplace_back(id, port)
+     // Old this->memberNode.myPos = this->memberNode.memberList.emplace(this->memberNode.myPos, id, *id->port);
      // Create new message (JOINREP)
      /*size_t msgsize = sizeof(MessageHdr) + sizeof(memberNode->memberList)
      resp = (MessageHdr *) malloc(msgsize * sizeof(char))
