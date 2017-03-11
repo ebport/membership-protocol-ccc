@@ -228,9 +228,10 @@ bool MP1Node::recvCallBack(void *env, char *data, int size ) {
      cout << "JOINREQ initiated";
      // extract fields from message - address is id
      char addr[6]; int id; short port; long heartbeat;
-     memcpy(&addr[0], data + sizeof(MessageHdr), sizeof(memberNode->addr.addr); // seems like address size could be different from address size in message?
-     heartbeat = *(long *)(data + sizeof(MessageHdr) + 1 + sizeof(memberNode->addr.addr));
-     id = memcpy(&id, &addr[0], sizeof(int));
+     memcpy(&addr[0], data + sizeof(MessageHdr), sizeof(env->addr.addr)); // seems like address size could be different from address size in message?
+     memcpy(&heartbeat, data + sizeof(MessageHdr) + 1 + sizeof(env->addr.addr), sizeof(long))
+     memcpy(&id, &addr[0], sizeof(int));
+     memcpy(&port, &addr[4], sizeof(short))
      // Update memberlist
      this->memberNode.myPos = this->memberNode.memberList.emplace(this->memberNode.myPos, id, *id->port);
      // Create new message (JOINREP)
